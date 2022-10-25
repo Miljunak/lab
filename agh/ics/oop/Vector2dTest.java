@@ -1,9 +1,7 @@
 package agh.ics.oop;
 
 import org.testng.annotations.Test;
-
 import java.util.Objects;
-
 import static org.testng.AssertJUnit.fail;
 
 public class Vector2dTest {
@@ -37,7 +35,6 @@ public class Vector2dTest {
         Vector2d v1 = new Vector2d(1,0);
         Vector2d v2 = new Vector2d( 1, 0);
         Vector2d v3 = new Vector2d(0,0);
-
         if (!v1.precedes(v2)) fail("Funkcja nie dziala");
         if (v1.precedes(v3)) fail("Funkcja nie dziala");
 

@@ -1,52 +1,25 @@
 package agh.ics.oop;
 
-public class World {
+import java.util.List;
 
+public class World {
     public static void main(String[] args) {
 
         System.out.println("system wystartował");
 
-        Vector2d v1 = new Vector2d(1,2);
-        Vector2d v2 = new Vector2d(1,3);
-        MapDirection dir1 = MapDirection.NORTH;
-        System.out.println(dir1.next().toUnitVector());
+        Animal futrzak = new Animal();
+        System.out.println(futrzak);
+        List<MoveDirection> moves = OptionParser.parse(args);
+        for(MoveDirection ruch: moves) futrzak.move(ruch);
+        System.out.println(futrzak);
+        String testerka = String.valueOf(futrzak);
+        System.out.println(testerka.contains("(1,4)"));
 
-
-
-        /*
-
-        Scanner myObj = new Scanner(System.in);
-        String tester1 = (myObj.nextLine()).replaceAll("\\s+","");
-        Direction[] tester2 = new Direction[tester1.length()];
-
-        for ( int i = 0 ; i < tester1.length(); i++ ){
-            tester2[i] = switch (tester1.charAt(i)) {
-                case 'f' -> Direction.FORWARD;
-                case 'b' -> Direction.BACKWARD;
-                case 'r' -> Direction.RIGHT;
-                default -> Direction.LEFT;
-            };
-        }
-
-        //run(tester2);
-
-         */
+        //Implementacja dzialania, ktore nie dopuscilo by do spotkania sie 2 zwierzat na jednym polu
+        //polega na trzymaniu danych na temat wszystkich zwierzat w liscie (lepiej w macierzy oznaczajac 0 lub 1)
+        //Gdy nastepuje ruch to poprostu sprawdzic w czasie n dla listy lub czasie stalym dla macierzy czy pole jest
+        //zajete czy juz nie.
 
         System.out.println("system zakończył działanie");
-    }
-
-    public static void run(MoveDirection[] dirs){
-        System.out.println("Start");
-
-        for (MoveDirection dir : dirs) {
-            switch(dir){
-                case FORWARD -> System.out.println("Zwierzak idzie do przodu");
-                case BACKWARD -> System.out.println("Zwierzak idzie do tylu");
-                case LEFT -> System.out.println("Zwierzak idzie w lewo");
-                case RIGHT -> System.out.println("Zwierzak idzie w prawo");
-            }
-        }
-
-        System.out.println("Stop");
     }
 }
