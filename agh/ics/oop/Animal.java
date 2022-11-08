@@ -2,16 +2,27 @@ package agh.ics.oop;
 
 public class Animal {
     private MapDirection dir;
-    private final Vector2d pos;
+    private Vector2d pos;
+    private IWorldMap map;
 
     public Animal(){
         this.dir = MapDirection.NORTH;
         this.pos = new Vector2d(2,2);
     }
 
+    public Animal(IWorldMap map, Vector2d initialPosition){
+        this.dir = MapDirection.NORTH;
+        this.map = map;
+        this.pos = initialPosition;
+    }
+
+    public Vector2d getPos() {
+        return pos;
+    }
+
     @Override
     public String toString(){
-        return "("+pos.x+","+pos.y+"), " + dir.toString();
+        return Character.toString(dir.toString().charAt(0));
     }
 
     public boolean isAt(Vector2d posistion){
@@ -24,34 +35,60 @@ public class Animal {
         else if(direction == MoveDirection.FORWARD){
             switch(dir){
                 case EAST -> {
-                    if (pos.x != 4) pos.x++;
+                    if (map.canMoveTo(new Vector2d(pos.x + 1, pos.y))) {
+                        map.removeAnimal(pos);
+                        pos.x++;
+                    }
                 }
                 case WEST -> {
-                    if (pos.x != 0) pos.x--;
+                    if (map.canMoveTo(new Vector2d(pos.x - 1, pos.y))){
+                        map.removeAnimal(pos);
+                        pos.x--;
+                    }
                 }
                 case NORTH -> {
-                    if (pos.y != 4) pos.y++;
+                    if (map.canMoveTo(new Vector2d(pos.x, pos.y + 1))){
+                        map.removeAnimal(pos);
+                        pos.y++;
+                    }
                 }
                 default -> {
-                    if (pos.y != 0) pos.y--;
+                    if (map.canMoveTo(new Vector2d(pos.x, pos.y - 1))){
+                        map.removeAnimal(pos);
+                        pos.y--;
+                    }
                 }
             }
+            map.place(this);
         }
         else{
             switch(dir){
                 case EAST -> {
-                    if (pos.x != 0) pos.x--;
+                    if (map.canMoveTo(new Vector2d(pos.x - 1, pos.y))){
+                        map.removeAnimal(pos);
+                        pos.x--;
+                    }
                 }
                 case WEST -> {
-                    if (pos.x != 4) pos.x++;
+                    if (map.canMoveTo(new Vector2d(pos.x + 1, pos.y))) {
+                        map.removeAnimal(pos);
+                        pos.x++;
+                    }
                 }
                 case NORTH -> {
-                    if (pos.y != 0) pos.y--;
+                    if (map.canMoveTo(new Vector2d(pos.x, pos.y - 1))){
+                        map.removeAnimal(pos);
+                        pos.y--;
+                    }
                 }
                 default -> {
-                    if (pos.y != 4) pos.y++;
+                    if (map.canMoveTo(new Vector2d(pos.x, pos.y + 1))){
+                        map.removeAnimal(pos);
+                        pos.y++;
+                    }
                 }
             }
+            map.place(this);
         }
 
     }

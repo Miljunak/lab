@@ -9,16 +9,16 @@ public enum MapDirection {
     public String toString(){
         switch(this){
             case NORTH -> {
-                return "Północ";
+                return "North";
             }
             case SOUTH -> {
-                return "Południe";
+                return "South";
             }
             case EAST -> {
-                return "Wschód";
+                return "East";
             }
             default -> {
-                return "Zachód";
+                return "West";
             }
         }
     }

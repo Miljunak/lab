@@ -6,7 +6,7 @@ import java.util.List;
 
 import static org.testng.AssertJUnit.*;
 
-public class animalParserTest {
+public class AnimalParserTest {
 
     @Test
     public void testOrientation(){
@@ -24,7 +24,7 @@ public class animalParserTest {
     }
 
     @Test
-    public void testPosistion_Borders(){
+    public void testPosistionBorders(){
 
         Animal dog = new Animal();
         assertTrue(String.valueOf(dog).contains("(2,2)"));

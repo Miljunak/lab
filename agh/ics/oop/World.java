@@ -7,18 +7,11 @@ public class World {
 
         System.out.println("system wystartował");
 
-        Animal futrzak = new Animal();
-        System.out.println(futrzak);
-        List<MoveDirection> moves = OptionParser.parse(args);
-        for(MoveDirection ruch: moves) futrzak.move(ruch);
-        System.out.println(futrzak);
-        String testerka = String.valueOf(futrzak);
-        System.out.println(testerka.contains("(1,4)"));
-
-        //Implementacja dzialania, ktore nie dopuscilo by do spotkania sie 2 zwierzat na jednym polu
-        //polega na trzymaniu danych na temat wszystkich zwierzat w liscie (lepiej w macierzy oznaczajac 0 lub 1)
-        //Gdy nastepuje ruch to poprostu sprawdzic w czasie n dla listy lub czasie stalym dla macierzy czy pole jest
-        //zajete czy juz nie.
+        List<MoveDirection> directions = OptionParser.parse(args);
+        IWorldMap map = new RectangularMap(10, 5);
+        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
+        IEngine engine = new SimulationEngine(directions, map, positions);
+        engine.run();
 
         System.out.println("system zakończył działanie");
     }
