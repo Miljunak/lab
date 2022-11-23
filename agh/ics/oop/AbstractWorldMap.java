@@ -1,11 +1,12 @@
 package agh.ics.oop;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public abstract class AbstractWorldMap implements IWorldMap{
+public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
 
     protected int width, height;
-    protected ArrayList<Animal> map;
+    protected HashMap<Vector2d, Animal> map;
     protected MapVisualizer visualizer;
     public Vector2d getLower() {
         return new Vector2d(0,0);
@@ -20,10 +21,7 @@ public abstract class AbstractWorldMap implements IWorldMap{
     @Override
     public boolean canMoveTo(Vector2d position) {
         if ((position.x >= 0 && position.y >= 0) && (position.x < this.width && position.y < this.height)){
-            for (Animal animol : map) {
-                if (animol.getPos().equals(position)) return false;
-            }
-            return true;
+            return map.get(position) == null;
         }
         return false;
     }
@@ -31,36 +29,19 @@ public abstract class AbstractWorldMap implements IWorldMap{
     @Override
     public boolean place(Animal animal) {
         Vector2d position = animal.getPos();
-        for (Animal animol : map) {
-            if (animol.getPos().equals(position)) return false;
-        }
-        map.add(animal);
+        if (map.get(position) != null) return false;
+        animal.addObserver(this);
+        map.put(position, animal);
         return true;
     }
 
     @Override
-    public boolean isOccupied(Vector2d position) {
-        for (Animal animol : map) {
-            if (animol.getPos().equals(position)) return true;
-        }
-        return false;
-    }
-
+    public boolean isOccupied(Vector2d position) { return map.get(position) != null; }
     @Override
-    public Object objectAt(Vector2d position) {
-        for (Animal animol : map) {
-            if (animol.getPos().equals(position)) return animol;
-        }
-        return null;
-    }
-
+    public Object objectAt(Vector2d position) { return map.get(position); }
     @Override
-    public void removeAnimal(Vector2d position){
-        for ( int i = 0 ; i < map.size() ; i++ ){
-            if (map.get(i).getPos().equals(position)){
-                map.remove(i);
-                return;
-            }
-        }
+    public void positionChanged(Vector2d oldPos, Vector2d newPos) {
+        Animal animal =  map.remove(oldPos);
+        map.put(newPos, animal);
     }
 }

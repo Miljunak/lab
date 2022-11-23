@@ -1,12 +1,17 @@
 package agh.ics.oop;
 
+import java.util.Objects;
+
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 public class Vector2d {
     public int x;
     public int y;
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.x, this.y);
+    }
     public Vector2d(int x, int y) {
         this.x = x;
         this.y = y;
@@ -52,6 +57,4 @@ public class Vector2d {
         if (!(other instanceof Vector2d temp)) return false;
         return x == temp.x && y == temp.y;
     }
-
-
 }

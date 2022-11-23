@@ -45,10 +45,4 @@ public interface IWorldMap {
      * @return Object or null if the position is not occupied.
      */
     Object objectAt(Vector2d position);
-
-    /**
-     * Removes animal from given point
-     */
-
-    void removeAnimal(Vector2d position);
 }
