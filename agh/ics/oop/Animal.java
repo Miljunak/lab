@@ -5,13 +5,8 @@ import java.util.ArrayList;
 public class Animal {
     private MapDirection dir;
     private Vector2d pos;
-    private AbstractWorldMap map;
-    private  ArrayList<IPositionChangeObserver> positionChangeObservers;
-
-    public Animal(){
-        this.dir = MapDirection.NORTH;
-        this.pos = new Vector2d(2,2);
-    }
+    private final AbstractWorldMap map;
+    private final ArrayList<IPositionChangeObserver> positionChangeObservers;
 
     public Animal(AbstractWorldMap map, Vector2d initialPosition){
         this.dir = MapDirection.NORTH;
@@ -42,13 +37,13 @@ public class Animal {
                 default -> newPos.y -= changer;
             }
             if (map.canMoveTo(newPos)){
-                //System.out.println(positionChangeObservers.size());
                 this.positionChanged(this.pos, newPos);
                 this.pos = newPos;
             }
         }
     }
     protected void addObserver(IPositionChangeObserver observer){
+        if (observer instanceof MapBoundary) ((MapBoundary) observer).insertObject(this.pos);
         this.positionChangeObservers.add(observer);
     }
     protected void removeObserver(IPositionChangeObserver observer){

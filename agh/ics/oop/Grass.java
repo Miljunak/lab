@@ -7,9 +7,7 @@ public class Grass {
         this.pos = pos;
     }
 
-    public Vector2d getPosition(){
-        return pos;
-    }
+    public Vector2d getPos(){ return pos; }
 
     @Override
     public String toString(){

@@ -5,6 +5,10 @@ import java.util.Objects;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
+/**
+ * Class which creates and operates on Object simulating 2D Vector
+ */
+
 public class Vector2d {
     public int x;
     public int y;

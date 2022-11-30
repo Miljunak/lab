@@ -1,11 +1,17 @@
 package agh.ics.oop;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+
+/**
+ * Abstract class that implements both IWorldMap and IPositionChangeObserver needed for GrassField and RectangularMap
+ * AbstractWorldMap creates Map to store animals in and a visualizer which with usage of toString function
+ * allows user to generate current state of the map
+ */
 
 public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
 
     protected int width, height;
+
     protected HashMap<Vector2d, Animal> map;
     protected MapVisualizer visualizer;
     public Vector2d getLower() {
@@ -29,7 +35,7 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     @Override
     public boolean place(Animal animal) {
         Vector2d position = animal.getPos();
-        if (map.get(position) != null) return false;
+        if (map.get(position) != null) throw new IllegalArgumentException(position + " is already occupied!");
         animal.addObserver(this);
         map.put(position, animal);
         return true;
