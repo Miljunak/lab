@@ -1,15 +1,22 @@
 package agh.ics.oop;
 
+import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimulationEngine implements IEngine{
+import static java.lang.Thread.sleep;
+
+public class SimulationEngine implements IEngine, Runnable {
 
     List<Animal> animals = new ArrayList<>();
     public List<MoveDirection> moves;
-    public AbstractWorldMap map;
+    public GrassField map;
 
-    public SimulationEngine(List<MoveDirection> moves, AbstractWorldMap map, Vector2d[] positions){
+    public SimulationEngine(List<MoveDirection> moves, GrassField map, Vector2d[] positions ){
         this.moves = moves;
         this.map = map;
         for(Vector2d pos: positions) {
@@ -20,7 +27,7 @@ public class SimulationEngine implements IEngine{
 
     @Override
     public void run() {
-        for (int i = 0; i < moves.size(); i++){
+        for (int i = 0; i < moves.size(); i++) {
             Animal curr = animals.get(i%animals.size());
             System.out.println(map);
             System.out.println(moves.get(i));

@@ -1,8 +1,12 @@
 package agh.ics.oop;
 
+import javafx.scene.image.Image;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-public class Animal {
+public class Animal implements IMapElement {
     private MapDirection dir;
     private Vector2d pos;
     private final AbstractWorldMap map;
@@ -15,6 +19,7 @@ public class Animal {
         this.positionChangeObservers = new ArrayList<>();
     }
 
+    @Override
     public Vector2d getPos() {
         return pos;
     }
@@ -52,6 +57,25 @@ public class Animal {
     private void positionChanged(Vector2d oldPosition, Vector2d newPosition){
         for(IPositionChangeObserver observer: positionChangeObservers){
             observer.positionChanged(oldPosition,newPosition);
+        }
+    }
+
+    @Override
+    public Image getImage() throws FileNotFoundException {
+
+        switch( dir ) {
+            case NORTH -> {
+                return new Image(new FileInputStream("src/main/resources/up.png"));
+            }
+            case EAST -> {
+                return new Image(new FileInputStream("src/main/resources/right.png"));
+            }
+            case SOUTH -> {
+                return new Image(new FileInputStream("src/main/resources/down.png"));
+            }
+            default -> {
+                return new Image(new FileInputStream("src/main/resources/left.png"));
+            }
         }
     }
 }

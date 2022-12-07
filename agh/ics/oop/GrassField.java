@@ -2,12 +2,15 @@ package agh.ics.oop;
 
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -40,43 +43,47 @@ public class GrassField extends AbstractWorldMap {
         this.boundary = new MapBoundary(grassPositions);
     }
 
-    public void genMap(GridPane grid) {
+    public void genMap(GridPane grid) throws FileNotFoundException {
+
+        GuiElementBox generator = new GuiElementBox();
 
         int lowerX = boundary.lowerBoundary().x;
         int lowerY = boundary.lowerBoundary().y;
         int higherX = boundary.upperBoundary().x;
         int higherY = boundary.upperBoundary().y;
 
-        grid.getColumnConstraints().add(new ColumnConstraints(25));
-        grid.getRowConstraints().add(new RowConstraints(25));
-        grid.add(new Label("y \\ x"), 0, 0);
+        grid.getColumnConstraints().add(new ColumnConstraints(50));
+        grid.getRowConstraints().add(new RowConstraints(50));
+        Label mainlabel = new Label("y \\ x");
+        GridPane.setHalignment(mainlabel, HPos.CENTER);
+        grid.add(mainlabel, 0, 0);
 
         for (int i = 0; i < higherX - lowerX + 1; i++ ) {
             Label label = new Label(Integer.toString(lowerX + i));
             GridPane.setHalignment(label, HPos.CENTER);
             grid.add(label, i + 1, 0);
-            grid.getColumnConstraints().add(new ColumnConstraints(25));
+            grid.getColumnConstraints().add(new ColumnConstraints(50));
         }
 
         for (int i = 0; i < higherY - lowerY + 1; i++ ) {
             Label label = new Label(Integer.toString(lowerY + i));
             GridPane.setHalignment(label, HPos.CENTER);
             grid.add(label, 0, higherY - lowerY - i + 1);
-            grid.getRowConstraints().add(new RowConstraints(25));
+            grid.getRowConstraints().add(new RowConstraints(50));
         }
 
         for (Vector2d key: grassPositions.keySet()) {
             Grass grass = grassPositions.get(key);
-            Label label = new Label(grass.toString());
-            GridPane.setHalignment(label, HPos.CENTER);
-            grid.add(label, key.x - lowerX + 1,higherY - key.y + 1);
+            VBox vbox = generator.genVBox(grass);
+            vbox.setAlignment(Pos.BASELINE_CENTER);
+            grid.add(vbox, key.x - lowerX + 1,higherY - key.y + 1);
         }
 
         for(Vector2d key: map.keySet()) {
             Animal animal = map.get(key);
-            Label label = new Label(animal.toString());
-            GridPane.setHalignment(label, HPos.CENTER);
-            grid.add(label, key.x - lowerX + 1,higherY - key.y + 1);
+            VBox vbox = generator.genVBox(animal);
+            vbox.setAlignment(Pos.BASELINE_CENTER);
+            grid.add(vbox, key.x - lowerX + 1,higherY - key.y + 1);
         }
     }
 

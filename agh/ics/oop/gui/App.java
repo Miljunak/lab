@@ -26,17 +26,20 @@ public class App extends Application {
 
         try {
             List<MoveDirection> directions = OptionParser.parse(args);
-            IEngine engine = new SimulationEngine(directions, map, positions);
-            engine.run();
+            SimulationEngine engine = new SimulationEngine(directions, map, positions);
+            Thread engineThread = new Thread(engine);
+            engineThread.start();
         }
         catch (IllegalArgumentException e) { System.out.println("> " + e.getMessage()); }
 
         GridPane grid = new GridPane();
         grid.setGridLinesVisible(true);
 
-        Scene scene = new Scene(grid, 500, 500);
         map.genMap(grid);
+
+        Scene scene = new Scene(grid, 600, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
+
     }
 }
